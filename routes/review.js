@@ -6,6 +6,7 @@ const ExpressError = require("../utils/ExpressError.js");
 const Listing = require("../models/listing.js");
 const Review = require("../models/review.js");
 
+
 const validateReview = (req,res,next) => {
     let {error} = reviewSchema.validate(req.body);
     if(error){
@@ -28,7 +29,7 @@ router.post(
 
     await newReview.save();
     await listing.save();
-
+    req.flash("success","review created!")
     res.redirect(`/listings/${listing._id}`);
   })
 );
@@ -44,7 +45,7 @@ router.delete(
     });
 
     await Review.findByIdAndDelete(reviewId);
-
+    req.flash("success","review deleted!");
     res.redirect(`/listings/${id}`);
   })
 );
